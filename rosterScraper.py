@@ -17,19 +17,27 @@ import sys
 # import formatters
 import tableScraper
 
+
+from tkinter import *
+from tkinter.ttk import *
+from App import App
+
+
+
 def main():
     # TODO Add template selection
     # Get url of website to scrape for tables
+    
     url = input("Input the URL of the roster page:")
-    parsedData = tableScraper.url_get_content(url)
-    tables = pd.DataFrame(parsedData.tables)
+    tables = tableScraper.url_get_content(url).tables
+    
     
     # Present user with options and prompt to select the table with the data they'd like to scrape
     pprint(tables)
     index = int(input("Enter the index of the table you would like to use:"))
     
     # Make a new dataframe for user specified table
-    df = pd.DataFrame(parsedData.tables[index])
+    df = pd.DataFrame(tables[index])
     pprint(df.head())
     
     
@@ -40,6 +48,7 @@ def main():
 
 
 if __name__ == "__main__":
-    print("hello")
-    main()
+    # main()
+    window = App()
+    window.mainloop()
     sys.exit(0)

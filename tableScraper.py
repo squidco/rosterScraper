@@ -13,8 +13,8 @@ import pandas as pd
 import formatters
 
 class ColumnData:
-    def __init__(self, columns = [], nameIndex = -1, hometownIndex = -1):
-        self.columns = columns
+    def __init__(self, columns: list = [], nameIndex: int = -1, hometownIndex: int = -1):
+        self.columns = columns 
         self.nameIndex = nameIndex
         self.hometownIndex = hometownIndex
 
@@ -100,6 +100,25 @@ def create_df(selectedColumns, df):
 
     if selectedColumns.hometownIndex != -1:
         dataFrameColumns.update(formatters.formatHometown(df[selectedColumns.hometownIndex]))
+        
+    return pd.DataFrame(dataFrameColumns)
+
+# Takes columnData type as first arg,
+def createDfFromData(cd: ColumnData, data):
+    df = pd.DataFrame(data)
+    dataFrameColumns = {}
+
+    # Create columns for new dataframe
+    for index, name in cd.columns:
+        # Skipping the first value to get rid of unused header
+        dataFrameColumns[name] = df[index][1:]
+
+    # Adds the formatted names to the new columns
+    if cd.nameIndex != -1:
+        dataFrameColumns.update(formatters.formatNames(df[cd.nameIndex]))
+
+    if cd.hometownIndex != -1:
+        dataFrameColumns.update(formatters.formatHometown(df[cd.hometownIndex]))
         
     return pd.DataFrame(dataFrameColumns)
 
