@@ -61,7 +61,7 @@ class App(Tk):
 
         for i, value in enumerate(self.data[0]):  # Headings
             # This command= blob is broken down like so => lambda delays execution till click + j is a variable that captures the current val of i as the loop runs + the bit after : is just a callback
-            table.heading(value, text=value, command=lambda j=(i,value): self.headingClick(j))
+            table.heading(value, text=value, command=lambda dataTuple=(i,value): self.headingClick(dataTuple))
             print(i, value)
 
         for r, row in enumerate(self.data[1:]):  # Rows
@@ -69,8 +69,6 @@ class App(Tk):
 
         self.tableFrame.pack()
 
-
-# TODO make the button that does stuff, do stuff
 class SearchWindow(Toplevel):
     def __init__(self, parent):
         super().__init__(parent)
@@ -88,9 +86,9 @@ class SearchWindow(Toplevel):
         self.separator = Separator(self, orient=VERTICAL)  # TODO fix this
         self.tableFrames = Frame(self)
 
-        self.searchFrame.grid(column=0, row=0, sticky=(N, W))
-        self.separator.grid(column=0, row=0)
-        self.tableFrames.grid(column=2, row=0, sticky=(N, W))
+        self.searchFrame.pack()
+        self.separator.pack()
+        self.tableFrames.pack()
 
     def createTableSelectionWindow(self, tables):
         self.tables = tables
@@ -101,24 +99,22 @@ class SearchWindow(Toplevel):
         # Create table frames
         for i, table in enumerate(tables):
             tableFrame = Frame(self.tableFrames, relief=RIDGE, padding=5)
+            tableView = Treeview(tableFrame, columns=table[0], show="headings")
             radio = Radiobutton(tableFrame, value=i, variable=self.selectedTable)
-            radio.grid(column=0, row=0, sticky=(N))
+            radio.pack()
 
-            # Create rows and columns
-            for r, row in enumerate(table):
-                if r < 5:  # Only get the first 5 entries
-                    for c, value in enumerate(row):
-                        label = Label(tableFrame, text=value)
-                        label.grid(column=c, row=r + 1, sticky=(E, W))
-                else:
-                    break
+            for i, value in enumerate(table[0]):  # Headings
+                tableView.heading(value, text=value)
 
-            tableFrame.grid(column=1, row=i, sticky=(N, W))
+            for r, row in enumerate(table[1:]):  # Rows
+                tableView.insert(parent="", index=r, values=row)
+            
+            tableView.pack()
+            tableFrame.pack()
 
     def handleImportButton(self, table):
         self.parent.importTable(self.tables[table.get()])
         pass
-
 
 class MenuBar(Menu):
     def __init__(self, parent):
@@ -143,7 +139,6 @@ class MenuBar(Menu):
 
     def helpMenu(self):
         pass
-
 
 class Search(Frame):
     def __init__(self, parent):
@@ -179,15 +174,11 @@ class Search(Frame):
             command=lambda: self.parent.handleImportButton(self.selectedTable),
         )
 
-        # Configure the grid layout
-        self.columnconfigure(0, weight=1)
-        self.rowconfigure(0, weight=1)
-
         # Place the widgets in the grid
-        urlLabel.grid(column=0, row=0, sticky=(W, E))
-        urlEntry.grid(column=1, row=0, sticky=(W, E))
-        searchButton.grid(column=1, row=1, sticky=(W, E))
-        importButton.grid(column=1, row=2, sticky=(W, E))
+        urlLabel.pack()
+        urlEntry.pack()
+        searchButton.pack()
+        importButton.pack()
 
     def scrapeButtonClick(self, url):
         tables = tableScraper.url_get_content(url).tables
