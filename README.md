@@ -10,6 +10,6 @@ I am going to polish and refactor this app so it is easily maintanable and expan
 [![Thumbnail for Future Development and Background Video](https://img.youtube.com/vi/U6uqKtg4rbw/0.jpg)](https://www.youtube.com/watch?v=U6uqKtg4rbw)
 
 # Technology Used
-Python
-Pandas
-Tkinter and TTK
+- Python
+- Pandas
+- Tkinter and TTK
