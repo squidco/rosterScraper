@@ -48,7 +48,6 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
     window = App()
     window.mainloop()
     sys.exit(0)

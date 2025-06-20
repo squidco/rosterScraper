@@ -56,7 +56,7 @@ def select_columns():
             colDex = int(columnIn)
             columnName = input("Enter the name of the column: ")
 
-            # Detect if a column was named "name(s)"/hometown and ask user if they would like to format     it
+            # Detect if a column was named "name(s)"/hometown and ask user if they would like to format it
             if columnName.lower() == "name" or columnName.lower() == "names":
                 format = input(
                     "Name column detected. Would you like to format this column into: first, last,  abbreviated, and fullname? (y/n): "
