@@ -1,0 +1,1 @@
+#TODO create history service that adds or removes searches from history

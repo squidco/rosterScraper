@@ -15,7 +15,7 @@ class App(Tk):
 
         # Window config
         self.title("Roster Scraper")
-        self.geometry("600x400")
+        self.geometry("400x400")
         self.option_add("*tearOff", False)
 
         # widgets
@@ -31,8 +31,8 @@ class App(Tk):
         self.createButton = Button(
             self, text="Create File", command=lambda: self.fileClick()
         )
-        self.tableFrame.pack(side=TOP, padx=1, pady=1)
-        self.createButton.pack(side=BOTTOM, pady=1)
+        self.createButton.pack(pady=1)
+        self.tableFrame.pack(padx=1, pady=1)
 
     def openScrapeWindow(self):
         # Clear the window and create a new search window
@@ -58,7 +58,7 @@ class App(Tk):
         createTreeView(self, data, self.headingClick)
 
 # TODO work with pack more to get a decent layout
-# TODO refactor any repeated code into its own function
+# Done: refactor any repeated code into its own function
 # TODO try to rename variables and arguments to be clear
 # TODO give arguments datatypes (arg: type)
 # TODO add option to name the output file

@@ -44,7 +44,7 @@ class Search(Frame):
         # Place the widgets in frame
         self.urlLabel.pack(side=LEFT, padx=1)
         self.urlEntry.pack(side=LEFT, ipadx=1)
-        self.searchButton.pack(side=LEFT, ipadx=1, ipady=1)
+        self.searchButton.pack(side=LEFT)
         self.searchBarFrame.pack(side=LEFT, ipadx=1, ipady=1)
 
     def scrapeButtonClick(self, url):
