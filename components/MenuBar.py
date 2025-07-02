@@ -1,21 +1,30 @@
-from tkinter import *
-from tkinter.ttk import *
+import tkinter as tk
+from components.TemplateMenu import TemplateMenu
 
-class MenuBar(Menu):
-    def __init__(self, parent):
+class MenuBar(tk.Menu):
+    def __init__(self, parent, ts):
         super().__init__(parent)
+        self.parent = parent
+        self.ts = ts
 
         # Sub menus
-        self.menuFile = Menu(self)
-        self.menuScrape = Menu(self)
-        self.menuHelp = Menu(self)
-        self.add_cascade(menu=self.menuFile, label="File")
-        self.add_cascade(menu=self.menuScrape, label="Scrape")
-        self.add_cascade(menu=self.menuHelp, label="Help")
-
-        self.menuFile.add_command(label="Exit", command=parent.quit)
-        self.menuScrape.add_command(label="Search", command=parent.openScrapeWindow)
-
+        self.file = tk.Menu(self)
+        self.add_cascade(menu=self.file, label="File")
+        self.file.add_command(label="Exit", command=parent.quit)
+        
+        self.scrape = tk.Menu(self)
+        self.add_cascade(menu=self.scrape, label="Scrape")
+        
+        self.template = TemplateMenu(self)
+        # self.add_cascade(menu=self.template, label="Templates")
+        
+        
+        self.help = tk.Menu(self)
+        self.add_cascade(menu=self.help, label="Help")
+    
+    def openTemplateWindow(self):
+        pass
+        
     def fileMenu(self):
         pass
 

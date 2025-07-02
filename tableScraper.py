@@ -103,7 +103,7 @@ def create_df(selectedColumns, df):
         
     return pd.DataFrame(dataFrameColumns)
 
-# Takes columnData type as first arg,
+# Takes columnData type as first arg, 2D array as second arg
 def createDfFromData(cd: ColumnData, data):
     df = pd.DataFrame(data)
     dataFrameColumns = {}
