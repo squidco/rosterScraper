@@ -7,6 +7,9 @@ from classes.PickleFileSystem import PickleFileSystem
 
 
 class TemplateService(PickleFileSystem):
+    """
+    Handles CRUD operations for templates which are stored in the file system
+    """
     def __init__(self):
         super().__init__("templates")
         self.lastSearchFileName = "last_search_template.pkl"
@@ -24,9 +27,24 @@ class TemplateService(PickleFileSystem):
             print("File successfully created")
 
     # Overwrites last search template file
-    def updateLast(self, template):
+    def updateLast(self, template: Template):
+        """
+        Takes a template as an arg and updates the 'last searched template'
+        """
         self.update(self.lastSearchFileName, template)
-
+        
+    # Function to get list of all templates
+    def listTemplates(self):
+        """
+        Returns a list of all templates in the 'templates' dir
+        """
+        fileNames = os.listdir(self.basePath)
+        templateList = []
+        for file in fileNames:
+            temp = self.read(file)
+            templateList.append(temp)
+        return templateList
+        
 
 def example():
     # Create an instance of the service

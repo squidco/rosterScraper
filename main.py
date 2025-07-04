@@ -5,8 +5,11 @@ import customtkinter as ctk
 
 # Components
 from components.MenuBar import MenuBar
-from components.SearchFrame import SearchFrame
-from components.FileCreationFrame import FileCreationFrame
+
+# Frames
+from frames.SearchFrame import SearchFrame
+from frames.TemplateFrame import TemplateFrame
+from frames.FileCreationFrame import FileCreationFrame
 
 # Custom Module
 import tableScraper
@@ -56,10 +59,21 @@ class App(ctk.CTk):
             sidebar, text="Table", command=lambda: self.changeFrame(1)
         )
         self.button2.pack()
+        
+        self.button3 = ctk.CTkButton(
+            sidebar, text="Templates", command=lambda: self.changeFrame(2)
+        )
+        self.button3.pack()
 
         # Frame container
         container = ctk.CTkFrame(self)
         container.pack(side="left", fill="both", expand=True)
+        
+        # Testing labels
+        # label = ctk.CTkLabel(container, text="I am the container")
+        # label2 = ctk.CTkLabel(container, text="I am the container")
+        # label.pack(side="top")
+        # label2.pack(side="bottom")
 
         # Frames
         self.frames = {}
@@ -69,7 +83,8 @@ class App(ctk.CTk):
         self.frames[1] = FileCreationFrame(
             container, self.table, self.createExcelSheet, self.headingClick
         )
-
+        self.frames[2] = TemplateFrame(container)
+        
         self.changeFrame(self.selectedFrame.get())
 
     # Helper Functions

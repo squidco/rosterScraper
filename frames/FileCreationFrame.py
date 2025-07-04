@@ -22,12 +22,12 @@ class FileCreationFrame(ctk.CTkFrame):
 
         # Widgets
         self.tableFrame = ctk.CTkFrame(self)
-        self.tableFrame.pack(padx=1, pady=1, fill="both")
+        self.tableFrame.pack(fill="both", expand=True)
 
         self.createButton = ctk.CTkButton(
             self, text="Create File", command=lambda: createExcelSheet()
         )
-        self.createButton.pack(pady=1)
+        self.createButton.pack(pady=1, side="bottom")
 
     # Overrides the pack method so every time this widget is packed it tries to create a table
     def pack(self, table=None, **kwargs):
@@ -44,4 +44,4 @@ class FileCreationFrame(ctk.CTkFrame):
     def createTable(self):
         clearFrame(self.tableFrame)
 
-        createTreeView(self, self.table, self.headingClick)
+        createTreeView(self.tableFrame, self.table, self.headingClick)

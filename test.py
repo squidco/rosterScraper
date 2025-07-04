@@ -2,4 +2,6 @@ from services.templateService import TemplateService
 
 ts = TemplateService()
 
-print(ts.read(ts.lastSearchName))
+templates = ts.listTemplates()
+
+print(templates[0])

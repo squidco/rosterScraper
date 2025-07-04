@@ -6,7 +6,7 @@ def createTreeView(parent, data, headingCallback=print):
     # Creates a treeview element from a 2d Array (or list or whatever)
     # The heading callback will have access to the index and value of the headings in a tuple
     frame = ctk.CTkFrame(parent)
-    frame.pack()
+    frame.pack(fill="both")
     
     table = ttk.Treeview(frame, columns=data[0], show="headings")
     table.pack(fill="x")
