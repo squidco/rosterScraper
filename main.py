@@ -112,6 +112,7 @@ if __name__ == "__main__":
 # TODO add option to name the output file
 # TODO create a copy function to make copies of template files
 # TODO detect if name/hometown columns are selected
+# TODO check code for "magic numbers", confusing functions, bad practices, etc.
 # ONGOING work with pack more to get a decent layout
 # ONGOING try to rename variables and arguments to be clear
 # ONGOING give arguments datatypes (arg: type)
