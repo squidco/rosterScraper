@@ -10,6 +10,7 @@ class TemplateService(PickleFileSystem):
     """
     Handles CRUD operations for templates which are stored in the file system
     """
+
     def __init__(self):
         super().__init__("templates")
         self.lastSearchFileName = "last_search_template.pkl"
@@ -27,12 +28,24 @@ class TemplateService(PickleFileSystem):
             print("File successfully created")
 
     # Overwrites last search template file
-    def updateLast(self, template: Template):
+    def updateLast(self, **kwargs):
         """
-        Takes a template as an arg and updates the 'last searched template'
+        Updates the last search template.\n
+        If given individual keyword args, only those properties will be updated. Valid keyword args are any template property.\n
+        If a template is received as the arg, the last search template will be overwritten.
         """
-        self.update(self.lastSearchFileName, template)
+        last = self.read(self.lastSearchFileName)
         
+        if "template" in kwargs:
+            last = kwargs["template"]
+        else:
+            for key, value in kwargs.items():
+                last[key] = value
+        
+        print(last)
+        
+        self.update(self.lastSearchFileName, last)
+
     # Function to get list of all templates
     def listTemplates(self):
         """
@@ -44,7 +57,7 @@ class TemplateService(PickleFileSystem):
             temp = self.read(file)
             templateList.append(temp)
         return templateList
-        
+
 
 def example():
     # Create an instance of the service
@@ -59,8 +72,8 @@ def example():
         ts.delete(fileName)
         print("Deleted file")
 
-    test = Template("url", 1, [1, 2, 3, 4])
-    test2 = Template("url", 2, [4, 5, 6, 7])
+    test = Template("Test 1", "url", 1, [1, 2, 3, 4])
+    test2 = Template("Test 2", "url", 2, [4, 5, 6, 7])
 
     # Create file
     # Does nothing if file already exists

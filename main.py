@@ -1,6 +1,7 @@
 # Modules
 import sys
 import tkinter as tk
+import tkinter.ttk as ttk
 import customtkinter as ctk
 
 # Components
@@ -31,6 +32,9 @@ class App(ctk.CTk):
         self.geometry("1000x400")
         self.option_add("*tearOff", False)
 
+        # Style
+        self.style = ttk.Style()
+
         # Services
         self.ts = TemplateService()
 
@@ -59,7 +63,7 @@ class App(ctk.CTk):
             sidebar, text="Table", command=lambda: self.changeFrame(1)
         )
         self.button2.pack()
-        
+
         self.button3 = ctk.CTkButton(
             sidebar, text="Templates", command=lambda: self.changeFrame(2)
         )
@@ -68,7 +72,7 @@ class App(ctk.CTk):
         # Frame container
         container = ctk.CTkFrame(self)
         container.pack(side="left", fill="both", expand=True)
-        
+
         # Testing labels
         # label = ctk.CTkLabel(container, text="I am the container")
         # label2 = ctk.CTkLabel(container, text="I am the container")
@@ -81,10 +85,10 @@ class App(ctk.CTk):
             container, self.url, self.tableIndex, self.changeFrame, self.importTable
         )
         self.frames[1] = FileCreationFrame(
-            container, self.table, self.createExcelSheet, self.headingClick
+            container
         )
         self.frames[2] = TemplateFrame(container)
-        
+
         self.changeFrame(self.selectedFrame.get())
 
     # Helper Functions
@@ -93,28 +97,14 @@ class App(ctk.CTk):
         for f in self.frames.values():
             f.forget()
         frame = self.frames[index]
-        frame.pack(table=self.table, expand=True, fill="both")
-
-    # Event handlers
-    # TODO add on specific heading name checks
-    def headingClick(self, column):
-        if column in self.columnData.columns:
-            self.columnData.columns.remove(column)
-        else:
-            self.columnData.columns.append(column)
-
-    def createExcelSheet(self):
-        # Create excel sheet
-        df = tableScraper.createDfFromData(self.columnData, self.table)
-        tableScraper.create_excel(df)
-
-        # Create template to save last search
-        template = Template(self.url.get(), self.tableIndex.get(), self.columnData)
-        self.ts.updateLast(template)
+        frame.pack(
+            table=self.table, expand=True, fill="both"
+        )  # Specific usage for the needs of the FileCreationFrame (Should change later)
 
     def importTable(self, table):
         self.table = table
         self.changeFrame(1)  # Change to the File Creation Frame
+
 
 
 if __name__ == "__main__":
@@ -122,26 +112,27 @@ if __name__ == "__main__":
     window.mainloop()
     sys.exit(0)
 
+# TODO Show what columns are selected by displaying the names of headings selected (Settled on this because tkinter does not let you easily change the styling for just one header in the treeview)
 # TODO create the function that takes a template and retrieves the data
 # TODO create a copy function to make copies of template files?
 # TODO work with pack more to get a decent layout - in progress -
-# Done: refactor any repeated code into its own function
 # TODO try to rename variables and arguments to be clear
 # TODO give arguments datatypes (arg: type)
 # TODO add option to name the output file
 # TODO detect if name/hometown columns are selected
 # TODO add comments to functions that need them
-# TODO use explicit imports instead of star imports
 # TODO add menu options
 ## - file: show excel files
 ## - help: show an explanation of how to use the app
 ## - scrape: website (rename other option)
 ##           template (scrapes using preset options)
 # TODO allow renaming of columns
+# TODO make the app record to the history of searches when searching for a website
 # TODO auto-generate headshot paths
 # (C:\ProgramData\AJT Systems\MAM\ESPN\LeagueAssets\NCAA\Headshots\lastname_firstname.png)
 
 
-# done link up variables so everything works again
-# done make the app record the last template used when creating an export file
-# TODO make the app record to the history of searches when searching for a website
+# Done use explicit imports instead of star imports
+# Done refactor any repeated code into its own function
+# Done link up variables so everything works again
+# Done make the app record the last template used when creating an export file

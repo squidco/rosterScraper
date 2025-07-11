@@ -10,6 +10,9 @@ class PickleFileSystem:
 
     # Creates a new file; does nothing if file already exists
     def create(self, fileName: str, data):
+        """
+        Creates a new file. Does nothing if file already exists.
+        """
         if not validateFileName(fileName):
             fileName += ".pkl"
 
@@ -22,6 +25,9 @@ class PickleFileSystem:
 
     # Appends data to the end of a file
     def append(self, fileName: str, data):
+        """
+        Appends data to the end of a file.
+        """
         if not validateFileName(fileName):
             fileName += ".pkl"
 
@@ -32,6 +38,9 @@ class PickleFileSystem:
 
     # Overwrites existing file
     def update(self, fileName: str, data):
+        """
+        Overwrites an existing file.
+        """
         if not validateFileName(fileName):
             fileName += ".pkl"
 
@@ -42,6 +51,9 @@ class PickleFileSystem:
 
     # Deletes a file
     def delete(self, fileName: str):
+        """
+        Deletes a file.
+        """
         if not validateFileName(fileName):
             fileName += ".pkl"
 
@@ -50,6 +62,9 @@ class PickleFileSystem:
 
     # Reads a pickled file and returns its value
     def read(self, fileName: str):
+        """
+        Reads a pickled file and returns its value.
+        """
         if not validateFileName(fileName):
             fileName += ".pkl"
 

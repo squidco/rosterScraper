@@ -1,47 +1,74 @@
 # Modules
 import customtkinter as ctk
+from tksheet import Sheet
 
-# Utils
-from utils.clearFrame import clearFrame
-from utils.createTreeView import createTreeView
+# Classes
+from classes.Template import Template
+from classes.ColumnData import ColumnData
 
 # Custom Modules
 import tableScraper
 
+# Services
+from services.templateService import TemplateService
+
 
 class FileCreationFrame(ctk.CTkFrame):
-    def __init__(self, parent, table, createExcelSheet, headingClick):
+    def __init__(self, parent):
         super().__init__(parent)
 
-        # Variables
-        self.columnData = tableScraper.ColumnData()
-        self.table = table
+        # Services
+        self.ts = TemplateService()
 
-        # Functions
-        self.headingClick = headingClick
+        # Variables
+        self.sheetData = None
+        self.sheetHeaders = None
 
         # Widgets
         self.tableFrame = ctk.CTkFrame(self)
         self.tableFrame.pack(fill="both", expand=True)
 
-        self.createButton = ctk.CTkButton(
-            self, text="Create File", command=lambda: createExcelSheet()
-        )
-        self.createButton.pack(pady=1, side="bottom")
+        self.sheet = Sheet(self.tableFrame)
 
-    # Overrides the pack method so every time this widget is packed it tries to create a table
+        self.sheet.enable_bindings("all", "ctrl_select", "edit_header")
+
+        # Sheet right click menu
+        self.sheet.popup_menu_add_command(
+            "Create Excel Sheet",
+            self.createExcelSheet,
+            index_menu=True,
+            header_menu=True,
+            empty_space_menu=False,
+        )
+
+        self.sheet.pack(fill="both")
+
+    # Overrides the pack method so every time this widget is packed it updates the sheet
     def pack(self, table=None, **kwargs):
         if table is not None:
-            self.table = table
-        if self.table is not None:
-            self.createTable()
+            self.sheetHeaders = table[0]
+            self.sheetData = table[1:]
+        if self.sheetHeaders is not None:
+            self.updateSheet()
         super().pack(**kwargs)
 
-    def fileClick(self):
-        df = tableScraper.createDfFromData(self.columnData, self.data)
+    def createExcelSheet(self):
+        selectedColumns = self.sheet.get_selected_columns()
+
+        table = [self.sheet.headers(), *self.sheetData]
+
+        # Create excel sheet
+        columnData = ColumnData(columns=selectedColumns)
+        print(type(selectedColumns))
+
+        df = tableScraper.createDfFromData(columnData, table)
         tableScraper.create_excel(df)
 
-    def createTable(self):
-        clearFrame(self.tableFrame)
+        self.ts.updateLast(columnData=columnData)
 
-        createTreeView(self.tableFrame, self.table, self.headingClick)
+    def updateSheet(self):
+        self.sheet.headers(newheaders=self.sheetHeaders)
+
+        self.sheet.set_data(data=self.sheetData)
+
+        self.sheet.refresh()

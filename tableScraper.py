@@ -10,13 +10,12 @@ from html_table_parser.parser import HTMLTableParser
 # pandas dataframe
 import pandas as pd
 
+# Classes
+from classes.ColumnData import ColumnData
+
+# Formatters
 import formatters
 
-class ColumnData:
-    def __init__(self, columns: list = [], nameIndex: int = -1, hometownIndex: int = -1):
-        self.columns = columns 
-        self.nameIndex = nameIndex
-        self.hometownIndex = hometownIndex
 
 # Opens a website and read its
 # binary contents (HTTP Response Body)
@@ -85,8 +84,6 @@ def select_columns():
 
 
 def create_df(selectedColumns, df):
-    
-    
     dataFrameColumns = {}
 
     # Create columns for new dataframe
@@ -99,30 +96,33 @@ def create_df(selectedColumns, df):
         dataFrameColumns.update(formatters.formatNames(df[selectedColumns.nameIndex]))
 
     if selectedColumns.hometownIndex != -1:
-        dataFrameColumns.update(formatters.formatHometown(df[selectedColumns.hometownIndex]))
-        
+        dataFrameColumns.update(
+            formatters.formatHometown(df[selectedColumns.hometownIndex])
+        )
+
     return pd.DataFrame(dataFrameColumns)
+
 
 # Takes columnData type as first arg, 2D array as second arg
-def createDfFromData(cd: ColumnData, data):
-    df = pd.DataFrame(data)
+def createDfFromData(cd: ColumnData, table):
+    """
+    Returns a Pandas Dataframe made from a 2D array and columnData
+    """
+    # Create a dict to use for the dataframe columns arg
     dataFrameColumns = {}
 
-    # Create columns for new dataframe
-    for index, name in cd.columns:
-        # Skipping the first value to get rid of unused header
-        dataFrameColumns[name] = df[index][1:]
+    for c in cd.columns:
+        header = table[0][c]
+        dataFrameColumns[header] = []
+        for i in range(1, len(table)):
+            dataFrameColumns[header].append(table[i][c])
 
-    # Adds the formatted names to the new columns
-    if cd.nameIndex != -1:
-        dataFrameColumns.update(formatters.formatNames(df[cd.nameIndex]))
-
-    if cd.hometownIndex != -1:
-        dataFrameColumns.update(formatters.formatHometown(df[cd.hometownIndex]))
-        
     return pd.DataFrame(dataFrameColumns)
 
-def create_excel(columns): # TODO You made a data type but this used to work off another data type
+
+def create_excel(
+    columns,
+):  # TODO You made a data type but this used to work off another data type
     # Create the final dataframe and excel sheet
     finalFrame = pd.DataFrame(columns)
     finalFrame.to_excel("test.xlsx", index=False)

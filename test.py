@@ -1,7 +1,13 @@
-from services.templateService import TemplateService
+# from services.templateService import TemplateService
 
-ts = TemplateService()
+# ts = TemplateService()
 
-templates = ts.listTemplates()
+# templates = ts.listTemplates()
 
-print(templates[0])
+# print(templates[0])
+
+
+headers = [1, 2, 3]
+data = [[1, 2, 3], [1, 2, 3]]
+
+print([headers, *data])
