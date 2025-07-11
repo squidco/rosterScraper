@@ -12,11 +12,7 @@ from frames.SearchFrame import SearchFrame
 from frames.TemplateFrame import TemplateFrame
 from frames.FileCreationFrame import FileCreationFrame
 
-# Custom Module
-import tableScraper
-
 # Classes
-from classes.Template import Template
 from classes.ColumnData import ColumnData
 from classes.enums import Frames
 
@@ -112,27 +108,26 @@ if __name__ == "__main__":
     window.mainloop()
     sys.exit(0)
 
-# TODO Show what columns are selected by displaying the names of headings selected (Settled on this because tkinter does not let you easily change the styling for just one header in the treeview)
 # TODO create the function that takes a template and retrieves the data
-# TODO create a copy function to make copies of template files?
-# TODO work with pack more to get a decent layout - in progress -
-# TODO try to rename variables and arguments to be clear
-# TODO give arguments datatypes (arg: type)
 # TODO add option to name the output file
+# TODO create a copy function to make copies of template files
 # TODO detect if name/hometown columns are selected
-# TODO add comments to functions that need them
+# ONGOING work with pack more to get a decent layout
+# ONGOING try to rename variables and arguments to be clear
+# ONGOING give arguments datatypes (arg: type)
+# ONGOING add comments to functions that need them
 # TODO add menu options
 ## - file: show excel files
 ## - help: show an explanation of how to use the app
 ## - scrape: website (rename other option)
 ##           template (scrapes using preset options)
-# TODO allow renaming of columns
 # TODO make the app record to the history of searches when searching for a website
 # TODO auto-generate headshot paths
 # (C:\ProgramData\AJT Systems\MAM\ESPN\LeagueAssets\NCAA\Headshots\lastname_firstname.png)
 
-
-# Done use explicit imports instead of star imports
-# Done refactor any repeated code into its own function
-# Done link up variables so everything works again
-# Done make the app record the last template used when creating an export file
+# DONE allow editing of column names
+# DONE shows users what columns are selected
+# DONE use explicit imports instead of star imports
+# DONE refactor any repeated code into its own function
+# DONE link up variables so everything works again
+# DONE make the app record the last template used when creating an export file
