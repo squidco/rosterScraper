@@ -18,10 +18,10 @@ import tableScraper
 # Classes
 from classes.Template import Template
 from classes.ColumnData import ColumnData
+from classes.enums import Frames
 
 # Services
 from services.templateService import TemplateService
-
 
 class App(ctk.CTk):
     def __init__(self):
@@ -55,17 +55,17 @@ class App(ctk.CTk):
         sidebar.pack(side="left", fill="y")
 
         self.button = ctk.CTkButton(
-            sidebar, text="Search", command=lambda: self.changeFrame(0)
+            sidebar, text="Search", command=lambda: self.changeFrame(Frames.SEARCH)
         )
         self.button.pack()
 
         self.button2 = ctk.CTkButton(
-            sidebar, text="Table", command=lambda: self.changeFrame(1)
+            sidebar, text="Sheet", command=lambda: self.changeFrame(Frames.SHEET)
         )
         self.button2.pack()
 
         self.button3 = ctk.CTkButton(
-            sidebar, text="Templates", command=lambda: self.changeFrame(2)
+            sidebar, text="Templates", command=lambda: self.changeFrame(Frames.TEMPLATES)
         )
         self.button3.pack()
 
@@ -81,15 +81,15 @@ class App(ctk.CTk):
 
         # Frames
         self.frames = {}
-        self.frames[0] = SearchFrame(
+        self.frames[Frames.SEARCH] = SearchFrame(
             container, self.url, self.tableIndex, self.changeFrame, self.importTable
         )
-        self.frames[1] = FileCreationFrame(
+        self.frames[Frames.SHEET] = FileCreationFrame(
             container
         )
-        self.frames[2] = TemplateFrame(container)
+        self.frames[Frames.TEMPLATES] = TemplateFrame(container)
 
-        self.changeFrame(self.selectedFrame.get())
+        self.changeFrame(Frames.SEARCH)
 
     # Helper Functions
     # Changes the visible frame in the container frame
@@ -103,7 +103,7 @@ class App(ctk.CTk):
 
     def importTable(self, table):
         self.table = table
-        self.changeFrame(1)  # Change to the File Creation Frame
+        self.changeFrame(Frames.SHEET)  # Change to the File Creation Frame
 
 
 
