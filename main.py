@@ -19,6 +19,7 @@ from classes.enums import Frames
 # Services
 from services.templateService import TemplateService
 
+
 class App(ctk.CTk):
     def __init__(self):
         super().__init__()
@@ -61,7 +62,9 @@ class App(ctk.CTk):
         self.button2.pack()
 
         self.button3 = ctk.CTkButton(
-            sidebar, text="Templates", command=lambda: self.changeFrame(Frames.TEMPLATES)
+            sidebar,
+            text="Templates",
+            command=lambda: self.changeFrame(Frames.TEMPLATES),
         )
         self.button3.pack()
 
@@ -81,7 +84,7 @@ class App(ctk.CTk):
             container, self.url, self.tableIndex, self.changeFrame, self.importTable
         )
         self.frames[Frames.SHEET] = FileCreationFrame(
-            container
+            container,
         )
         self.frames[Frames.TEMPLATES] = TemplateFrame(container)
 
@@ -100,7 +103,6 @@ class App(ctk.CTk):
     def importTable(self, table):
         self.table = table
         self.changeFrame(Frames.SHEET)  # Change to the File Creation Frame
-
 
 
 if __name__ == "__main__":

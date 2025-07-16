@@ -5,6 +5,9 @@ import customtkinter as ctk
 # Utils
 from utils.createTreeView import createTreeView
 
+# Services
+from services.templateService import TemplateService
+
 # Custom Module
 import tableScraper
 
@@ -14,6 +17,9 @@ class SearchFrame(ctk.CTkFrame):
         self, parent, url: tk.StringVar, tableIndex: tk.IntVar, changeFrame, importTable
     ):
         super().__init__(parent)
+
+        # Services
+        self.ts = TemplateService()
 
         # Window config
         self.parent = parent
@@ -81,6 +87,12 @@ class SearchFrame(ctk.CTkFrame):
         self.importButton.pack(side="bottom")
         self.createTableSelectionWindow()
 
+        # Update last search template
+        self.ts.updateLast(url=self.url.get())
+
     def handleImportButton(self):
         table = self.tables[self.tableIndex.get()]
         self.importTable(table)
+
+        # Update last search template
+        self.ts.updateLast(selectedTable=self.tableIndex.get())

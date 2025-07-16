@@ -1,4 +1,5 @@
 # Modules
+import tkinter as tk
 import customtkinter as ctk
 from tksheet import Sheet
 
@@ -55,15 +56,14 @@ class FileCreationFrame(ctk.CTkFrame):
         selectedColumns = self.sheet.get_selected_columns()
 
         table = [self.sheet.headers(), *self.sheetData]
-
-        # Create excel sheet
         columnData = ColumnData(columns=selectedColumns)
-        print(type(selectedColumns))
 
         df = tableScraper.createDfFromData(columnData, table)
         tableScraper.create_excel(df)
 
-        self.ts.updateLast(columnData=columnData)
+        self.ts.updateLast(
+            columnData=columnData,
+        )
 
     def updateSheet(self):
         self.sheet.headers(newheaders=self.sheetHeaders)

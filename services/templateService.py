@@ -34,16 +34,31 @@ class TemplateService(PickleFileSystem):
         If given individual keyword args, only those properties will be updated. Valid keyword args are any template property.\n
         If a template is received as the arg, the last search template will be overwritten.
         """
-        last = self.read(self.lastSearchFileName)
-        
+        # Validate arguments
+        validKwargs = Template().__dict__.keys()
+
+        for key in kwargs.keys():
+            if key not in validKwargs:
+                raise Exception(
+                    f"'{key}' is not a valid keyword argument.\nValid keyword arguments: {validKwargs}"
+                )
+
+        last = Template()
+        # Check if file empty
+        try:
+            last = self.read(self.lastSearchFileName)
+        except EOFError:
+            print("End of file reached")
+
+        # Update last search template
         if "template" in kwargs:
             last = kwargs["template"]
         else:
             for key, value in kwargs.items():
                 last[key] = value
-        
+
         print(last)
-        
+
         self.update(self.lastSearchFileName, last)
 
     # Function to get list of all templates
