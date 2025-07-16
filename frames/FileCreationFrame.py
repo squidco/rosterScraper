@@ -1,5 +1,4 @@
 # Modules
-import tkinter as tk
 import customtkinter as ctk
 from tksheet import Sheet
 
