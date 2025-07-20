@@ -14,7 +14,7 @@ import tableScraper
 # Services
 from services.templateService import TemplateService
 
-
+# TODO tksheet has a treeview mode that might already have double click (run template) and right click (edit/delete template)
 class TemplateFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
