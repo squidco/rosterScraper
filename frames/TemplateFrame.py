@@ -1,6 +1,4 @@
 # Modules
-import tkinter as tk
-from tksheet import Sheet
 import customtkinter as ctk
 
 # Components
@@ -8,12 +6,6 @@ from components.customTreeview import customTreeView
 
 # Classes
 from classes.Template import Template
-
-# Utils
-from utils.createTreeView import createTreeView
-
-# Custom Module
-import tableScraper
 
 # Services
 from services.templateService import TemplateService

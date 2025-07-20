@@ -1,6 +1,4 @@
 import tkinter.ttk as ttk
-import customtkinter as ctk
-
 
 class customTreeView(ttk.Treeview):
     def __init__(self, parent, columns):
