@@ -1,3 +1,7 @@
+# Modules
+from datetime import datetime
+
+# Classes
 from dataclasses import dataclass
 from classes.ColumnData import ColumnData
 
@@ -15,9 +19,10 @@ class Template:
         self.url = url
         self.selectedTable = selectedTable
         self.columnData = columnData
+        self.dateCreated = datetime.now()
 
     def __str__(self):
-        return f"\nURL: {self.url}\nTable: {self.selectedTable}\nColumnData: {self.columnData}"
+        return f"\nName: {self.name}\nURL: {self.url}\nTable: {self.selectedTable}\nColumnData: {self.columnData}\nCreated on: {self.dateCreated}"
 
     def __setitem__(self, key, value):
         setattr(self, key, value)

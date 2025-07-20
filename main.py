@@ -92,13 +92,18 @@ class App(ctk.CTk):
 
     # Helper Functions
     # Changes the visible frame in the container frame
-    def changeFrame(self, index):
+    def changeFrame(self, page):
         for f in self.frames.values():
             f.forget()
-        frame = self.frames[index]
-        frame.pack(
-            table=self.table, expand=True, fill="both"
-        )  # Specific usage for the needs of the FileCreationFrame (Should change later)
+
+        frame = self.frames[page]
+
+        # The file creation frame needs to be passed the updated table data in order to update
+        # So we override the pack method and pass it on each pack
+        if page is Frames.SHEET:
+            frame.pack(table=self.table, expand=True, fill="both")
+        else:
+            frame.pack(expand=True, fill="both")
 
     def importTable(self, table):
         self.table = table

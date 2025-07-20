@@ -23,9 +23,9 @@ class TemplateService(PickleFileSystem):
         if not os.path.isfile(os.path.join(self.basePath, self.lastSearchFileName)):
             self.create(
                 self.lastSearchFileName,
-                Template(),
+                Template(name="Last Search"),
             )
-            print("File successfully created")
+            print("Last Search Template Created")
 
     # Overwrites last search template file
     def updateLast(self, **kwargs):

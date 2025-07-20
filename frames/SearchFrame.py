@@ -69,8 +69,6 @@ class SearchFrame(ctk.CTkFrame):
         self.tableContainer.pack(side="left", fill="both", expand=True)
 
     def createTableSelectionWindow(self):
-        # Clear any existing frames in `self.tableFrames`
-
         # Create table frames
         for i, table in enumerate(self.tables):
             tableFrame = ctk.CTkFrame(self.tableContainer)
