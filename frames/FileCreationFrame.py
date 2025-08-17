@@ -60,6 +60,7 @@ class FileCreationFrame(ctk.CTkFrame):
         df = tableScraper.createDfFromData(columnData, table)
         tableScraper.create_excel(df)
 
+        # Update last searched template
         self.ts.updateLast(
             columnData=columnData,
         )

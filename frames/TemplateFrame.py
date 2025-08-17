@@ -10,6 +10,10 @@ from classes.Template import Template
 # Services
 from services.templateService import TemplateService
 
+# Utils
+from tableScraper import createExcelFromTemplate
+
+
 class TemplateFrame(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
@@ -20,9 +24,11 @@ class TemplateFrame(ctk.CTkFrame):
         # Variables
         self.template = Template()
         self.templateList = self.ts.listTemplates()
-        
+
         # Widgets
-        self.tree = customTreeView(self, columns=["Name", "URL", "Date"], show="headings")
+        self.tree = customTreeView(
+            self, columns=["Name", "URL", "Date"], show="headings"
+        )
         self.tree.bind("<Double-1>", self.onDoubleClick)
 
     def pack(self, **kwargs):
@@ -33,23 +39,26 @@ class TemplateFrame(ctk.CTkFrame):
     def displayTemplateTree(self):
         headings = ["Name", "URL", "Date"]
 
-        data = []
-        for template in self.templateList:
-            tData = []
-            tData.append(template.name)
-            tData.append(template.url)
-            tData.append(template.dateCreated)
-            data.append(tData)
+        items = []
+        for i in range(len(self.templateList)):
+            template = self.templateList[i]
+            iData = []
+
+            iData.append(template.name)
+            iData.append(template.url)
+            iData.append(template.dateCreated)
+            items.append(iData)
 
         self.tree.headings(headings)
-        self.tree.bulkInsert(data)
+        self.tree.bulkInsert(items)
         self.tree.pack(fill="both", expand=True)
-
-        # createTreeView(self, data=data)
 
     def updateTemplates(self):
         self.templateList = self.ts.listTemplates()
 
     def onDoubleClick(self, event):
-        item = self.tree.selection()[0]
-        print(f"You clicked {self.tree.item(item)}")
+        selection = self.tree.selection()[0]
+        index = self.tree.index(selection)
+
+        createExcelFromTemplate(self.templateList[index])
+        print(f"INDEX {index}")

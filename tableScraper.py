@@ -12,6 +12,7 @@ import pandas as pd
 
 # Classes
 from classes.ColumnData import ColumnData
+from classes.Template import Template
 
 # Formatters
 import formatters
@@ -40,69 +41,6 @@ def url_get_content(url):
     # Store the data in a dataframe
     return p
 
-
-def select_columns():
-    columnData = ColumnData()
-
-    # Start collecting column input
-    columnIn = input(
-        "Enter the number of the column you'd like to grab (Enter 'n' to continue): "
-    )
-
-    # Appends a data object into the columns list
-    while columnIn != "n":
-        try:
-            colDex = int(columnIn)
-            columnName = input("Enter the name of the column: ")
-
-            # Detect if a column was named "name(s)"/hometown and ask user if they would like to format it
-            if columnName.lower() == "name" or columnName.lower() == "names":
-                format = input(
-                    "Name column detected. Would you like to format this column into: first, last,  abbreviated, and fullname? (y/n): "
-                )
-                if format[0].lower() == "y":
-                    columnData.nameIndex = colDex
-            elif columnName.lower() == "hometown":
-                format = input(
-                    "Hometown column detected. Would you like to format this column to drop the     previous school? (y/n): "
-                )
-                if format[0].lower() == "y":
-                    columnData.hometownIndex = colDex
-            else:
-                data = (colDex, columnName)  # tuple
-                columnData.columns.append(data)
-
-        except Exception as e:
-            print(
-                f"Invalid input. Enter the index of a column or 'n' to continue.\n{e}"
-            )
-        columnIn = input(
-            "Enter the number of the column you'd like to grab (Enter 'n' to continue): "
-        )
-
-    return columnData
-
-
-def create_df(selectedColumns, df):
-    dataFrameColumns = {}
-
-    # Create columns for new dataframe
-    for index, name in selectedColumns.columns:
-        # Skipping the first value to get rid of unused header
-        dataFrameColumns[name] = df[index][1:]
-
-    # Adds the formatted names to the new columns
-    if selectedColumns.nameIndex != -1:
-        dataFrameColumns.update(formatters.formatNames(df[selectedColumns.nameIndex]))
-
-    if selectedColumns.hometownIndex != -1:
-        dataFrameColumns.update(
-            formatters.formatHometown(df[selectedColumns.hometownIndex])
-        )
-
-    return pd.DataFrame(dataFrameColumns)
-
-
 # Takes columnData type as first arg, 2D array as second arg
 def createDfFromData(cd: ColumnData, table):
     """
@@ -126,3 +64,15 @@ def create_excel(
     # Create the final dataframe and excel sheet
     finalFrame = pd.DataFrame(columns)
     finalFrame.to_excel("test.xlsx", index=False)
+
+
+def createExcelFromTemplate(template: Template):
+    # Retrieves all tables from the url, then grabs specified table
+    table = url_get_content(template.url).tables[template.selectedTable]
+    
+    # Creates an excel sheet from the template's data
+    # TODO Add name to 
+    df = createDfFromData(template.columnData, table)
+    
+    create_excel(df)
+    
